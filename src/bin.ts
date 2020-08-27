@@ -249,7 +249,7 @@ const deploy = async ({ yes, bucket, userAgent }: { yes: boolean; bucket: string
                                     Key: key,
                                     Body: fs.createReadStream(path),
                                     ACL: config.acl === null ? undefined : config.acl ?? 'public-read',
-                                    ContentType: mime.getType(path) ?? 'application/octet-stream',
+                                    ContentType: mime.lookup(path) ?? 'application/octet-stream',
                                     ...getParams(key, params),
                                 },
                             });
