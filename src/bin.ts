@@ -242,6 +242,7 @@ const deploy = async ({ yes, bucket, userAgent }: { yes: boolean; bucket: string
 
                     if (!objectUnchanged) {
                         try {
+                            const pathmodule = require('path');
                             const upload = new S3.ManagedUpload({
                                 service: s3,
                                 params: {
@@ -249,7 +250,7 @@ const deploy = async ({ yes, bucket, userAgent }: { yes: boolean; bucket: string
                                     Key: key,
                                     Body: fs.createReadStream(path),
                                     ACL: config.acl === null ? undefined : config.acl ?? 'public-read',
-                                    ContentType: mime.lookup(path) ?? 'application/octet-stream',
+                                    ContentType: mime.getType(pathmodule.extname(path)) ?? 'application/octet-stream',
                                     ...getParams(key, params),
                                 },
                             });
